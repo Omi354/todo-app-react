@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import "./App.css";
+import "./App.scss";
 
 type InputProps = {
   label: string;
@@ -78,6 +78,7 @@ const InputTaskArea: React.FC = () => {
     };
     const newTasks = [...tasks, newTask];
     setTasks(newTasks);
+    // Qiitaネタ => console.logの限界、自動で作成されることの弊害
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,10 +118,27 @@ const InputTaskArea: React.FC = () => {
   );
 };
 
+const TasksArea: React.FC = () => {
+  return (
+    <table className="tasksTable">
+      <thead className="tasksTable_thead">
+        <tr>
+          <th>ID</th>
+          <th>タスク名</th>
+          <th>担当者</th>
+          <th>期限</th>
+        </tr>
+      </thead>
+      <tbody className="tasksTable_tbody"></tbody>
+    </table>
+  );
+};
+
 function App() {
   return (
     <div className="container">
       <InputTaskArea />
+      <TasksArea />
     </div>
   );
 }
