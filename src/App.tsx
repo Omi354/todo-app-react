@@ -6,12 +6,19 @@ type TextInputProps = {
   // Qiitaネタ => undefinedとnullの違い
   placeholder: string | undefined;
   inputType: string;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+type RegisterBtnProps = {
+  // Qiitaネタ => void と () => void
+  onRegisterBtnClick: () => void;
 };
 
 const TextInput: React.FC<TextInputProps> = ({
   label,
   placeholder,
   inputType,
+  onInputChange,
 }) => {
   // Qiitaネタ => idを使いたいときの設定
   const id = useId();
@@ -20,31 +27,32 @@ const TextInput: React.FC<TextInputProps> = ({
       <label htmlFor={id} className="input_label">
         {label}
       </label>
-      <input id={id} type={inputType} placeholder={placeholder} />
+      <input
+        id={id}
+        type={inputType}
+        placeholder={placeholder}
+        onChange={onInputChange}
+      />
     </div>
   );
 };
 
-// const RegisterBtn: React.FC = (onRegisterBtnClick) => {
-//   return (
-//     <div className="registerBtn">
-//       <button onClick={onRegisterBtnClick}>登録</button>
-//     </div>
-//   );
-// };
-
-const RegisterBtn: React.FC = () => {
+const RegisterBtn: React.FC<RegisterBtnProps> = ({ onRegisterBtnClick }) => {
   return (
     <div className="registerBtn">
-      <button>登録</button>
+      <button onClick={onRegisterBtnClick}>登録</button>
     </div>
   );
 };
 
 const InputTaskArea: React.FC = () => {
-  // const handleRegisterBtnClick = () => {
-  //   console.log(`InputTaskAreaで定義した関数`)
-  // }
+  const handleRegisterBtnClick = () => {
+    console.log(`InputTaskAreaで定義した関数`);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(`これはInputTaskAreaで呼び出しています =>  ${e.target.value}`);
+  };
 
   return (
     <div className="inputTaskArea">
@@ -52,12 +60,21 @@ const InputTaskArea: React.FC = () => {
         label="タスク名"
         placeholder="タスク名を入力"
         inputType="text"
+        onInputChange={handleInputChange}
       />
-
-      <TextInput label="担当者" placeholder="担当者を入力" inputType="text" />
-      <TextInput label="期限" placeholder="" inputType="date" />
-      <RegisterBtn />
-      {/* <RegisterBtn onRegisterBtnClick={handleRegisterBtnClick} /> */}
+      <TextInput
+        label="担当者"
+        placeholder="担当者を入力"
+        inputType="text"
+        onInputChange={handleInputChange}
+      />
+      <TextInput
+        label="期限"
+        placeholder=""
+        inputType="date"
+        onInputChange={handleInputChange}
+      />
+      <RegisterBtn onRegisterBtnClick={handleRegisterBtnClick} />
     </div>
   );
 };
