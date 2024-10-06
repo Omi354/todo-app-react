@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import "./App.css";
 
 type InputProps = {
@@ -47,26 +47,28 @@ const RegisterBtn: React.FC<RegisterBtnProps> = ({ onRegisterBtnClick }) => {
 };
 
 const InputTaskArea: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [name, setName] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [person, setPerson] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [deadline, setDeadline] = useState("");
+
   const handleRegisterBtnClick = () => {
     console.log(`InputTaskAreaで定義した関数`);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(
-      `これはhandleNameChangeで呼び出しています =>  ${e.target.value}`
-    );
+    setName(e.target.value);
+    console.log(name);
   };
 
   const handlePersonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(
-      `これはhandlePersonChangeで呼び出しています =>  ${e.target.value}`
-    );
+    setPerson(e.target.value);
   };
 
   const handleDeadlineChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(
-      `これはhandleDeadlineChangeで呼び出しています =>  ${e.target.value}`
-    );
+    setDeadline(e.target.value);
   };
 
   return (
