@@ -1,6 +1,17 @@
 import { useId, useState } from "react";
 import "./App.scss";
 
+type InputTaskAreaProps = {
+  tasks: Array<task>;
+  setTasks: React.Dispatch<React.SetStateAction<Array<task>>>;
+  name: string;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  person: string;
+  setPerson: React.Dispatch<React.SetStateAction<string>>;
+  deadline: string;
+  setDeadline: React.Dispatch<React.SetStateAction<string>>;
+};
+
 type InputProps = {
   label: string;
   // Qiitaネタ => undefinedとnullの違い
@@ -53,22 +64,16 @@ const RegisterBtn: React.FC<RegisterBtnProps> = ({ onRegisterBtnClick }) => {
   );
 };
 
-const InputTaskArea: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [name, setName] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [person, setPerson] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [deadline, setDeadline] = useState("");
-  const [tasks, setTasks] = useState<Array<task>>([
-    {
-      id: 1,
-      name: "掃除",
-      person: "omi",
-      deadline: "2024-10-06",
-    },
-  ]);
-
+const InputTaskArea: React.FC<InputTaskAreaProps> = ({
+  tasks,
+  setTasks,
+  name,
+  setName,
+  person,
+  setPerson,
+  deadline,
+  setDeadline,
+}) => {
   const handleRegisterBtnClick = () => {
     const newTask = {
       id: tasks.length + 1,
@@ -135,9 +140,29 @@ const TasksArea: React.FC = () => {
 };
 
 function App() {
+  const [name, setName] = useState("");
+  const [person, setPerson] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [tasks, setTasks] = useState<Array<task>>([
+    {
+      id: 1,
+      name: "掃除",
+      person: "omi",
+      deadline: "2024-10-06",
+    },
+  ]);
   return (
     <div className="container">
-      <InputTaskArea />
+      <InputTaskArea
+        tasks={tasks}
+        setTasks={setTasks}
+        name={name}
+        setName={setName}
+        person={person}
+        setPerson={setPerson}
+        deadline={deadline}
+        setDeadline={setDeadline}
+      />
       <TasksArea />
     </div>
   );
