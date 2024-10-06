@@ -19,6 +19,7 @@ type InputProps = {
   inputType: string;
   // Qiitaネタ => 子コンポーネントでのイベントeを親コンポーネントで使う方法
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 };
 
 type RegisterBtnProps = {
@@ -38,6 +39,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   inputType,
   onInputChange,
+  value,
 }) => {
   // Qiitaネタ => idを使いたいときの設定
   const id = useId();
@@ -51,6 +53,7 @@ const Input: React.FC<InputProps> = ({
         type={inputType}
         placeholder={placeholder}
         onChange={onInputChange}
+        value={value}
       />
     </div>
   );
@@ -84,6 +87,9 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
     const newTasks = [...tasks, newTask];
     setTasks(newTasks);
     // Qiitaネタ => console.logの限界、自動で作成されることの弊害
+    setName("");
+    setPerson("");
+    setDeadline("");
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,18 +111,21 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
         placeholder="タスク名を入力"
         inputType="text"
         onInputChange={handleNameChange}
+        value={name}
       />
       <Input
         label="担当者"
         placeholder="担当者を入力"
         inputType="text"
         onInputChange={handlePersonChange}
+        value={person}
       />
       <Input
         label="期限"
         placeholder=""
         inputType="date"
         onInputChange={handleDeadlineChange}
+        value={deadline}
       />
       <RegisterBtn onRegisterBtnClick={handleRegisterBtnClick} />
     </div>
