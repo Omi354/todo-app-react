@@ -5,3 +5,15 @@ body {
 .container {
   padding: 10px;
 }
+
+.input {
+  display: flex;
+  gap: 10px;
+}
+
+.inputTaskArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}

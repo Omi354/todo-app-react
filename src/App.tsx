@@ -1,31 +1,72 @@
+import { useId } from "react";
 import "./App.css";
-import { ChakraProvider, Button, Flex, Input, Text } from "@chakra-ui/react";
 
-function App() {
-  const handleClick = () => {};
+type TextInputProps = {
+  label: string;
+  // Qiitaネタ => undefinedとnullの違い
+  placeholder: string | undefined;
+  inputType: string;
+};
+
+const TextInput: React.FC<TextInputProps> = ({
+  label,
+  placeholder,
+  inputType,
+}) => {
+  // Qiitaネタ => idを使いたいときの設定
+  const id = useId();
+  return (
+    <div className="input">
+      <label htmlFor={id} className="input_label">
+        {label}
+      </label>
+      <input id={id} type={inputType} placeholder={placeholder} />
+    </div>
+  );
+};
+
+// const RegisterBtn: React.FC = (onRegisterBtnClick) => {
+//   return (
+//     <div className="registerBtn">
+//       <button onClick={onRegisterBtnClick}>登録</button>
+//     </div>
+//   );
+// };
+
+const RegisterBtn: React.FC = () => {
+  return (
+    <div className="registerBtn">
+      <button>登録</button>
+    </div>
+  );
+};
+
+const InputTaskArea: React.FC = () => {
+  // const handleRegisterBtnClick = () => {
+  //   console.log(`InputTaskAreaで定義した関数`)
+  // }
 
   return (
-    <ChakraProvider>
-      <div className="container">
-        <Flex justify={"space-between"} gap={"10px"} align={"center"}>
-          <Flex gap={"10px"} align={"center"}>
-            <Text fontSize="sm">タスク名</Text>
-            <Input type="text" placeholder="タスク名を入力" />
-          </Flex>
-          <Flex gap={"10px"} align={"center"}>
-            <Text fontSize="sm">担当名</Text>
-            <Input type="text" placeholder="担当名を入力" />
-          </Flex>
-          <Flex gap={"10px"} align={"center"}>
-            <Text fontSize="sm">期限</Text>
-            <Input type="date" />
-          </Flex>
-          <Button colorScheme="teal" size="sm" onClick={handleClick}>
-            登録
-          </Button>
-        </Flex>
-      </div>
-    </ChakraProvider>
+    <div className="inputTaskArea">
+      <TextInput
+        label="タスク名"
+        placeholder="タスク名を入力"
+        inputType="text"
+      />
+
+      <TextInput label="担当者" placeholder="担当者を入力" inputType="text" />
+      <TextInput label="期限" placeholder="" inputType="date" />
+      <RegisterBtn />
+      {/* <RegisterBtn onRegisterBtnClick={handleRegisterBtnClick} /> */}
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <div className="container">
+      <InputTaskArea />
+    </div>
   );
 }
 
