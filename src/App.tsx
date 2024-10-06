@@ -184,8 +184,8 @@ function App() {
 
   const handleDeleteBtnClick = (task_id: number) => {
     console.log(`${task_id} これがtodo.idと一致していたら成功`);
-    const deletedtasks = tasks.filter((task) => task.id !== task_id);
-    setTasks(deletedtasks);
+    const deletedTasks = tasks.filter((task) => task.id !== task_id);
+    setTasks(deletedTasks);
   };
 
   return (
