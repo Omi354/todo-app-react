@@ -1,11 +1,12 @@
 import { useId } from "react";
 import "./App.css";
 
-type TextInputProps = {
+type InputProps = {
   label: string;
   // Qiitaネタ => undefinedとnullの違い
   placeholder: string | undefined;
   inputType: string;
+  // Qiitaネタ => 子コンポーネントでのイベントeを親コンポーネントで使う方法
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -14,7 +15,7 @@ type RegisterBtnProps = {
   onRegisterBtnClick: () => void;
 };
 
-const TextInput: React.FC<TextInputProps> = ({
+const Input: React.FC<InputProps> = ({
   label,
   placeholder,
   inputType,
@@ -50,29 +51,43 @@ const InputTaskArea: React.FC = () => {
     console.log(`InputTaskAreaで定義した関数`);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(`これはInputTaskAreaで呼び出しています =>  ${e.target.value}`);
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(
+      `これはhandleNameChangeで呼び出しています =>  ${e.target.value}`
+    );
+  };
+
+  const handlePersonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(
+      `これはhandlePersonChangeで呼び出しています =>  ${e.target.value}`
+    );
+  };
+
+  const handleDeadlineChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(
+      `これはhandleDeadlineChangeで呼び出しています =>  ${e.target.value}`
+    );
   };
 
   return (
     <div className="inputTaskArea">
-      <TextInput
+      <Input
         label="タスク名"
         placeholder="タスク名を入力"
         inputType="text"
-        onInputChange={handleInputChange}
+        onInputChange={handleNameChange}
       />
-      <TextInput
+      <Input
         label="担当者"
         placeholder="担当者を入力"
         inputType="text"
-        onInputChange={handleInputChange}
+        onInputChange={handlePersonChange}
       />
-      <TextInput
+      <Input
         label="期限"
         placeholder=""
         inputType="date"
-        onInputChange={handleInputChange}
+        onInputChange={handleDeadlineChange}
       />
       <RegisterBtn onRegisterBtnClick={handleRegisterBtnClick} />
     </div>
