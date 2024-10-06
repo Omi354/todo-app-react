@@ -19,6 +19,7 @@ type InputProps = {
   inputType: string;
   // Qiitaネタ => 子コンポーネントでのイベントeを親コンポーネントで使う方法
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 };
 
 type RegisterBtnProps = {
@@ -38,6 +39,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   inputType,
   onInputChange,
+  value,
 }) => {
   // Qiitaネタ => idを使いたいときの設定
   const id = useId();
@@ -51,6 +53,7 @@ const Input: React.FC<InputProps> = ({
         type={inputType}
         placeholder={placeholder}
         onChange={onInputChange}
+        value={value}
       />
     </div>
   );
@@ -84,6 +87,9 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
     const newTasks = [...tasks, newTask];
     setTasks(newTasks);
     // Qiitaネタ => console.logの限界、自動で作成されることの弊害
+    setName("");
+    setPerson("");
+    setDeadline("");
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,18 +111,21 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
         placeholder="タスク名を入力"
         inputType="text"
         onInputChange={handleNameChange}
+        value={name}
       />
       <Input
         label="担当者"
         placeholder="担当者を入力"
         inputType="text"
         onInputChange={handlePersonChange}
+        value={person}
       />
       <Input
         label="期限"
         placeholder=""
         inputType="date"
         onInputChange={handleDeadlineChange}
+        value={deadline}
       />
       <RegisterBtn onRegisterBtnClick={handleRegisterBtnClick} />
     </div>
@@ -125,9 +134,10 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
 
 type TasksAreaProps = {
   tasks: Array<task>;
+  onDeleteBtnClick: (i: number) => void;
 };
 
-const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
+const TasksArea: React.FC<TasksAreaProps> = ({ tasks, onDeleteBtnClick }) => {
   return (
     <table className="tasksTable">
       <thead className="tasksTable_thead">
@@ -136,6 +146,7 @@ const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
           <th className="tasksTable_th">タスク名</th>
           <th className="tasksTable_th">担当者</th>
           <th className="tasksTable_th">期限</th>
+          <th className="tasksTable_th">操作</th>
         </tr>
       </thead>
       <tbody className="tasksTable_tbody">
@@ -146,6 +157,10 @@ const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
               <td>{task.name}</td>
               <td>{task.person}</td>
               <td>{task.deadline}</td>
+              <td>
+                {/* Qiitaネタ => 子コンポーネントの情報を親コンポーネントで使う方法 */}
+                <button onClick={() => onDeleteBtnClick(task.id)}>削除</button>
+              </td>
             </tr>
           );
         })}
@@ -166,6 +181,13 @@ function App() {
       deadline: "2024-10-06",
     },
   ]);
+
+  const handleDeleteBtnClick = (task_id: number) => {
+    console.log(`${task_id} これがtodo.idと一致していたら成功`);
+    const deletedtasks = tasks.filter((task) => task.id !== task_id);
+    setTasks(deletedtasks);
+  };
+
   return (
     <div className="container">
       <InputTaskArea
@@ -178,7 +200,7 @@ function App() {
         deadline={deadline}
         setDeadline={setDeadline}
       />
-      <TasksArea tasks={tasks} />
+      <TasksArea tasks={tasks} onDeleteBtnClick={handleDeleteBtnClick} />
     </div>
   );
 }
