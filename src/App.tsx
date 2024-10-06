@@ -15,6 +15,13 @@ type RegisterBtnProps = {
   onRegisterBtnClick: () => void;
 };
 
+type task = {
+  id: number;
+  name: string;
+  person: string;
+  deadline: string;
+};
+
 const Input: React.FC<InputProps> = ({
   label,
   placeholder,
@@ -53,14 +60,28 @@ const InputTaskArea: React.FC = () => {
   const [person, setPerson] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [deadline, setDeadline] = useState("");
+  const [tasks, setTasks] = useState<Array<task>>([
+    {
+      id: 1,
+      name: "掃除",
+      person: "omi",
+      deadline: "2024-10-06",
+    },
+  ]);
 
   const handleRegisterBtnClick = () => {
-    console.log(`InputTaskAreaで定義した関数`);
+    const newTask = {
+      id: tasks.length + 1,
+      name: name,
+      person: person,
+      deadline: deadline,
+    };
+    const newTasks = [...tasks, newTask];
+    setTasks(newTasks);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    console.log(name);
   };
 
   const handlePersonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
