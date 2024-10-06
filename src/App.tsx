@@ -1,5 +1,16 @@
 import { useId, useState } from "react";
-import "./App.css";
+import "./App.scss";
+
+type InputTaskAreaProps = {
+  tasks: Array<task>;
+  setTasks: React.Dispatch<React.SetStateAction<Array<task>>>;
+  name: string;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  person: string;
+  setPerson: React.Dispatch<React.SetStateAction<string>>;
+  deadline: string;
+  setDeadline: React.Dispatch<React.SetStateAction<string>>;
+};
 
 type InputProps = {
   label: string;
@@ -53,22 +64,16 @@ const RegisterBtn: React.FC<RegisterBtnProps> = ({ onRegisterBtnClick }) => {
   );
 };
 
-const InputTaskArea: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [name, setName] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [person, setPerson] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [deadline, setDeadline] = useState("");
-  const [tasks, setTasks] = useState<Array<task>>([
-    {
-      id: 1,
-      name: "掃除",
-      person: "omi",
-      deadline: "2024-10-06",
-    },
-  ]);
-
+const InputTaskArea: React.FC<InputTaskAreaProps> = ({
+  tasks,
+  setTasks,
+  name,
+  setName,
+  person,
+  setPerson,
+  deadline,
+  setDeadline,
+}) => {
   const handleRegisterBtnClick = () => {
     const newTask = {
       id: tasks.length + 1,
@@ -78,6 +83,7 @@ const InputTaskArea: React.FC = () => {
     };
     const newTasks = [...tasks, newTask];
     setTasks(newTasks);
+    // Qiitaネタ => console.logの限界、自動で作成されることの弊害
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,10 +123,62 @@ const InputTaskArea: React.FC = () => {
   );
 };
 
+type TasksAreaProps = {
+  tasks: Array<task>;
+};
+
+const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
+  return (
+    <table className="tasksTable">
+      <thead className="tasksTable_thead">
+        <tr>
+          <th className="tasksTable_th">ID</th>
+          <th className="tasksTable_th">タスク名</th>
+          <th className="tasksTable_th">担当者</th>
+          <th className="tasksTable_th">期限</th>
+        </tr>
+      </thead>
+      <tbody className="tasksTable_tbody">
+        {tasks.map((task: task) => {
+          return (
+            <tr key={task.id}>
+              <td>{task.id}</td>
+              <td>{task.name}</td>
+              <td>{task.person}</td>
+              <td>{task.deadline}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+
 function App() {
+  const [name, setName] = useState("");
+  const [person, setPerson] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [tasks, setTasks] = useState<Array<task>>([
+    {
+      id: 1,
+      name: "掃除",
+      person: "omi",
+      deadline: "2024-10-06",
+    },
+  ]);
   return (
     <div className="container">
-      <InputTaskArea />
+      <InputTaskArea
+        tasks={tasks}
+        setTasks={setTasks}
+        name={name}
+        setName={setName}
+        person={person}
+        setPerson={setPerson}
+        deadline={deadline}
+        setDeadline={setDeadline}
+      />
+      <TasksArea tasks={tasks} />
     </div>
   );
 }
