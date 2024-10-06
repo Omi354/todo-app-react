@@ -123,18 +123,33 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
   );
 };
 
-const TasksArea: React.FC = () => {
+type TasksAreaProps = {
+  tasks: Array<task>;
+};
+
+const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
   return (
     <table className="tasksTable">
       <thead className="tasksTable_thead">
         <tr>
-          <th>ID</th>
-          <th>タスク名</th>
-          <th>担当者</th>
-          <th>期限</th>
+          <th className="tasksTable_th">ID</th>
+          <th className="tasksTable_th">タスク名</th>
+          <th className="tasksTable_th">担当者</th>
+          <th className="tasksTable_th">期限</th>
         </tr>
       </thead>
-      <tbody className="tasksTable_tbody"></tbody>
+      <tbody className="tasksTable_tbody">
+        {tasks.map((task: task) => {
+          return (
+            <tr key={task.id}>
+              <td>{task.id}</td>
+              <td>{task.name}</td>
+              <td>{task.person}</td>
+              <td>{task.deadline}</td>
+            </tr>
+          );
+        })}
+      </tbody>
     </table>
   );
 };
@@ -163,7 +178,7 @@ function App() {
         deadline={deadline}
         setDeadline={setDeadline}
       />
-      <TasksArea />
+      <TasksArea tasks={tasks} />
     </div>
   );
 }

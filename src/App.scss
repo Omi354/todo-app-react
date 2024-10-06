@@ -21,4 +21,7 @@ body {
 .tasksTable {
   margin-top: 30px;
   width: 100%;
+  &_th {
+    text-align: left;
+  }
 }
