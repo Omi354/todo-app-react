@@ -134,9 +134,10 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
 
 type TasksAreaProps = {
   tasks: Array<task>;
+  onDeleteBtnClick: (i: number) => void;
 };
 
-const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
+const TasksArea: React.FC<TasksAreaProps> = ({ tasks, onDeleteBtnClick }) => {
   return (
     <table className="tasksTable">
       <thead className="tasksTable_thead">
@@ -145,6 +146,7 @@ const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
           <th className="tasksTable_th">タスク名</th>
           <th className="tasksTable_th">担当者</th>
           <th className="tasksTable_th">期限</th>
+          <th className="tasksTable_th">操作</th>
         </tr>
       </thead>
       <tbody className="tasksTable_tbody">
@@ -155,6 +157,10 @@ const TasksArea: React.FC<TasksAreaProps> = ({ tasks }) => {
               <td>{task.name}</td>
               <td>{task.person}</td>
               <td>{task.deadline}</td>
+              <td>
+                {/* Qiitaネタ => 子コンポーネントの情報を親コンポーネントで使う方法 */}
+                <button onClick={() => onDeleteBtnClick(task.id)}>削除</button>
+              </td>
             </tr>
           );
         })}
@@ -175,6 +181,13 @@ function App() {
       deadline: "2024-10-06",
     },
   ]);
+
+  const handleDeleteBtnClick = (task_id: number) => {
+    console.log(`${task_id} これがtodo.idと一致していたら成功`);
+    const deletedtasks = tasks.filter((task) => task.id !== task_id);
+    setTasks(deletedtasks);
+  };
+
   return (
     <div className="container">
       <InputTaskArea
@@ -187,7 +200,7 @@ function App() {
         deadline={deadline}
         setDeadline={setDeadline}
       />
-      <TasksArea tasks={tasks} />
+      <TasksArea tasks={tasks} onDeleteBtnClick={handleDeleteBtnClick} />
     </div>
   );
 }
