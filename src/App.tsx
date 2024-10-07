@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import "./App.scss";
 
 type InputTaskAreaProps = {
@@ -197,14 +197,25 @@ function App() {
   ]);
 
   const handleDeleteBtnClick = (task_id: number) => {
-    console.log(`${task_id} これがtodo.idと一致していたら成功`);
     const deletedTasks = tasks.filter((task) => task.id !== task_id);
     setTasks(deletedTasks);
   };
 
+  const [filteringWord, setFilteringWord] = useState("");
+  const [filteredTasks, setFilteredTasks] = useState<Array<task>>(tasks);
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("filterWord", e.target.value);
+    const newFilteringWord = e.target.value;
+    setFilteringWord(newFilteringWord);
   };
+
+  // Qiitaネタ useEffect
+  useEffect(() => {
+    const newFilterdTasks = tasks.filter(
+      (task) =>
+        task.name.includes(filteringWord) || task.person.includes(filteringWord)
+    );
+    setFilteredTasks(newFilterdTasks);
+  }, [filteringWord, tasks]);
 
   return (
     <div className="container">
@@ -219,7 +230,10 @@ function App() {
         setDeadline={setDeadline}
       />
       <FilteringArea onFilterChange={handleFilterChange} />
-      <TasksArea tasks={tasks} onDeleteBtnClick={handleDeleteBtnClick} />
+      <TasksArea
+        tasks={filteredTasks}
+        onDeleteBtnClick={handleDeleteBtnClick}
+      />
     </div>
   );
 }
