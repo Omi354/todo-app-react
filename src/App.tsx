@@ -169,6 +169,20 @@ const TasksArea: React.FC<TasksAreaProps> = ({ tasks, onDeleteBtnClick }) => {
   );
 };
 
+type FilteringAreaProps = {
+  onFilterChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const FilteringArea: React.FC<FilteringAreaProps> = ({ onFilterChange }) => {
+  return (
+    <input
+      type="text"
+      placeholder="絞り込みキーワードを入力"
+      onChange={onFilterChange}
+    />
+  );
+};
+
 function App() {
   const [name, setName] = useState("");
   const [person, setPerson] = useState("");
@@ -188,6 +202,10 @@ function App() {
     setTasks(deletedTasks);
   };
 
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("filterWord", e.target.value);
+  };
+
   return (
     <div className="container">
       <InputTaskArea
@@ -200,6 +218,7 @@ function App() {
         deadline={deadline}
         setDeadline={setDeadline}
       />
+      <FilteringArea onFilterChange={handleFilterChange} />
       <TasksArea tasks={tasks} onDeleteBtnClick={handleDeleteBtnClick} />
     </div>
   );
