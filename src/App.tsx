@@ -223,8 +223,17 @@ function App() {
     setFilteredTasks(newFilterdTasks);
   }, [filteringWord, tasks]);
 
+  const [sortHelper, setSortHelper] = useState(true);
   const handleSortBtnClick = () => {
-    console.log("sortBtncliked");
+    const sortedTasks = tasks.sort((a, b) => {
+      if (sortHelper === true) {
+        return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+      } else {
+        return new Date(b.deadline).getTime() - new Date(a.deadline).getTime();
+      }
+    });
+    setFilteredTasks(sortedTasks);
+    setSortHelper(!sortHelper);
   };
 
   return (
