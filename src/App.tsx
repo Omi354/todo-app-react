@@ -14,10 +14,8 @@ type InputTaskAreaProps = {
 
 type InputProps = {
   label: string;
-  // Qiitaネタ => undefinedとnullの違い
-  placeholder: string | undefined;
+  placeholder: string;
   inputType: string;
-  // Qiitaネタ => 子コンポーネントでのイベントeを親コンポーネントで使う方法
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
 };
@@ -135,9 +133,14 @@ const InputTaskArea: React.FC<InputTaskAreaProps> = ({
 type TasksAreaProps = {
   tasks: Array<task>;
   onDeleteBtnClick: (i: number) => void;
+  onSortBtnClick: () => void;
 };
 
-const TasksArea: React.FC<TasksAreaProps> = ({ tasks, onDeleteBtnClick }) => {
+const TasksArea: React.FC<TasksAreaProps> = ({
+  tasks,
+  onDeleteBtnClick,
+  onSortBtnClick,
+}) => {
   return (
     <table className="tasksTable">
       <thead className="tasksTable_thead">
@@ -145,7 +148,9 @@ const TasksArea: React.FC<TasksAreaProps> = ({ tasks, onDeleteBtnClick }) => {
           <th className="tasksTable_th">ID</th>
           <th className="tasksTable_th">タスク名</th>
           <th className="tasksTable_th">担当者</th>
-          <th className="tasksTable_th">期限</th>
+          <th className="tasksTable_th" onClick={onSortBtnClick}>
+            期限
+          </th>
           <th className="tasksTable_th">操作</th>
         </tr>
       </thead>
@@ -176,6 +181,7 @@ type FilteringAreaProps = {
 const FilteringArea: React.FC<FilteringAreaProps> = ({ onFilterChange }) => {
   return (
     <input
+      className="filteringArea"
       type="text"
       placeholder="絞り込みキーワードを入力"
       onChange={onFilterChange}
@@ -217,6 +223,10 @@ function App() {
     setFilteredTasks(newFilterdTasks);
   }, [filteringWord, tasks]);
 
+  const handleSortBtnClick = () => {
+    console.log("sortBtncliked");
+  };
+
   return (
     <div className="container">
       <InputTaskArea
@@ -233,6 +243,7 @@ function App() {
       <TasksArea
         tasks={filteredTasks}
         onDeleteBtnClick={handleDeleteBtnClick}
+        onSortBtnClick={handleSortBtnClick}
       />
     </div>
   );

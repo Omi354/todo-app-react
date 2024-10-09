@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-  padding: 10px;
+  padding: 40px 20px;
 }
 
 .input {
@@ -24,4 +24,8 @@ body {
   &_th {
     text-align: left;
   }
+}
+
+.filteringArea {
+  margin-top: 30px;
 }
